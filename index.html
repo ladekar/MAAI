@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maai - AI Assistant</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 50px;
+        }
+        input, button {
+            padding: 10px;
+            font-size: 16px;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Welcome to Maai - Your AI Assistant</h1>
+    <form method="post">
+        <input type="text" name="user_input" placeholder="Ask me anything..." required>
+        <button type="submit">Ask</button>
+    </form>
+    {% if user_input %}
+        <p><strong>You:</strong> {{ user_input }}</p>
+        <p><strong>Maai:</strong> {{ bot_response }}</p>
+    {% endif %}
+</body>
+</html>

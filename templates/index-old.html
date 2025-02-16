@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maai - AI Assistant</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 50px;
+            background-color: #f4f4f4;
+        }
+        #chatbox {
+            width: 50%;
+            margin: 20px auto;
+            max-height: 400px;
+            overflow-y: auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+        .message {
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 5px;
+            text-align: left;
+        }
+        .user {
+            background-color: #d1e7ff;
+            text-align: right;
+        }
+        .bot {
+            background-color: #e9e9e9;
+        }
+        #user_input {
+            width: 60%;
+            padding: 10px;
+            font-size: 16px;
+        }
+        button {
+            padding: 10px 15px;
+            font-size: 16px;
+            background: blue;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background: darkblue;
+        }
+    </style>
+</head>
+<body>
+    <h1>Maai - Your AI Assistant</h1>
+    <div id="chatbox"></div>
+    <input type="text" id="user_input" placeholder="Ask Maai something..." required>
+    <button onclick="sendMessage()">Send</button>
+    <button onclick="startVoiceRecognition()">🎤 Speak</button>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", loadChatHistory);
+
+        function sendMessage() {
+            let userInput = document.getElementById("user_input").value;
+            if (!userInput.trim()) return;
+
+            displayMessage("You: " + userInput, "user");
+            document.getElementById("user_input").value = "";
+
+            fetch("/chat", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ message: userInput })
+            })
+            .then(response => response.json())
+            .then(data => {
+                displayMessage("Maai: " + data.response, "bot");
+            })
+            .catch(error => console.error("Error:", error));
+        }
+
+        function displayMessage(text, type) {
+            let chatbox = document.getElementById("chatbox");
+            let message = document.createElement("div");
+            message.className = "message " + type;
+            message.textContent = text;
+            chatbox.appendChild(message);
+            chatbox.scrollTop = chatbox.scrollHeight;
+
+            saveChatHistory();
+        }
+
+        function saveChatHistory() {
+            let chatbox = document.getElementById("chatbox").innerHTML;
+            localStorage.setItem("chatHistory", chatbox);
+        }
+
+        function loadChatHistory() {
+            let savedChat = localStorage.getItem("chatHistory");
+            if (savedChat) {
+                document.getElementById("chatbox").innerHTML = savedChat;
+            }
+        }
+
+        function startVoiceRecognition() {
+            let recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+            recognition.lang = "en-US";
+            recognition.start();
+
+            recognition.onresult = function(event) {
+                let transcript = event.results[0][0].transcript;
+                document.getElementById("user_input").value = transcript;
+                sendMessage();
+            };
+        }
+    </script>
+</body>
+</html>
