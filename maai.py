@@ -1,20 +1,29 @@
 from flask import Flask, render_template
 from flask_socketio import SocketIO, emit
-from openai import OpenAI
+import openai
+import os
+from dotenv import load_dotenv
 
-client = OpenAI(api_key="your_api_key")
+# Load environment variables from .env
+load_dotenv()
 
 app = Flask(__name__)
-socketio = SocketIO(app, cors_allowed_origins="*")  # Enable WebSocket support
+socketio = SocketIO(app, cors_allowed_origins="*")
 
-# Replace with your OpenAI API Key
+# Get API key from environment variable
+openai.api_key = os.getenv("OPENAI_API_KEY")
 
 def generate_response(user_input):
     """Generate AI response using OpenAI's GPT model."""
+    if not openai.api_key:
+        return "Error: OpenAI API key is missing!"
+
     try:
-        response = client.chat.completions.create(model="gpt-3.5-turbo",
-        messages=[{"role": "user", "content": user_input}])
-        return response.choices[0].message.content
+        response = openai.ChatCompletion.create(
+            model="gpt-4o",
+            messages=[{"role": "user", "content": user_input}]
+        )
+        return response["choices"][0]["message"]["content"]
     except Exception as e:
         return f"Error: {str(e)}"
 
@@ -30,8 +39,6 @@ def handle_message(data):
         return
 
     bot_response = generate_response(user_input)
-
-    # Emit messages back to the frontend
     emit("receive_message", {"user": user_input, "bot": bot_response}, broadcast=True)
 
 if __name__ == "__main__":
