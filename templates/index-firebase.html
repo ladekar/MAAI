@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maai - AI Chat (Firebase Sync)</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.5.4/socket.io.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js"></script>
+
+    <script>
+        // Your Firebase Config
+        const firebaseConfig = {
+            apiKey: "YOUR_FIREBASE_API_KEY",
+            authDomain: "YOUR_PROJECT.firebaseapp.com",
+            projectId: "YOUR_PROJECT_ID",
+            storageBucket: "YOUR_PROJECT.appspot.com",
+            messagingSenderId: "YOUR_SENDER_ID",
+            appId: "YOUR_APP_ID"
+        };
+
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+
+        var socket = io();
+        let user_id = localStorage.getItem("user_id") || "guest";
+
+        function sendMessage() {
+            let userInput = document.getElementById("user_input").value;
+            if (!userInput.trim()) return;
+
+            socket.emit("send_message", { message: userInput, user_id });
+
+            displayMessage("You: " + userInput, "user");
+            document.getElementById("user_input").value = "";
+        }
+
+        socket.on("receive_message", function(data) {
+            displayMessage("Maai: " + data.bot, "bot");
+        });
+
+        function displayMessage(text, type) {
+            let chatbox = document.getElementById("chatbox");
+            let message = document.createElement("div");
+            message.className = "message " + type;
+            message.textContent = text;
+            chatbox.appendChild(message);
+            chatbox.scrollTop = chatbox.scrollHeight;
+        }
+
+        function loadChatHistory() {
+            db.collection("chats").doc(user_id).get().then((doc) => {
+                if (doc.exists) {
+                    let messages = doc.data().messages || [];
+                    messages.forEach(msg => {
+                        displayMessage("You: " + msg.user, "user");
+                        displayMessage("Maai: " + msg.bot, "bot");
+                    });
+                }
+            });
+        }
+
+        document.addEventListener("DOMContentLoaded", loadChatHistory);
+    </script>
+</head>
+<body>
+    <h1>Maai - Sync Chat Across Devices</h1>
+    <div id="chatbox"></div>
+
+    <div>
+        <input type="text" id="user_input" placeholder="Ask Maai something..." required>
+        <button onclick="sendMessage()">Send</button>
+    </div>
+</body>
+</html>
+

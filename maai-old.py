@@ -21,7 +21,7 @@ def generate_response(user_input):
 
 @app.route("/")
 def home():
-    return render_template("index.html")
+    return render_template("index-old.html")
 
 @app.route("/chat", methods=["POST"])
 def chat():

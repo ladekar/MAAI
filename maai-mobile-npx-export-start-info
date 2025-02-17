@@ -1,0 +1,43 @@
+start the mobile app
+cd /workspaces/MAAI/maai-mobile
+npx expo start
+
+@ladekar ➜ /workspaces/MAAI/maai-mobile (main) $ npx expo start
+Starting project at /workspaces/MAAI/maai-mobile
+Starting Metro Bundler
+▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
+█ ▄▄▄▄▄ █ ▄▄ █▀██ █ ▄▄▄▄▄ █
+█ █   █ ██▄█▀▀ ▄  █ █   █ █
+█ █▄▄▄█ █ ▀▀▄ ███▄█ █▄▄▄█ █
+█▄▄▄▄▄▄▄█ ▀▄█▄█▄█▄█▄▄▄▄▄▄▄█
+█▄  ██▄▄█ ▄█▄ █ ▀█  ▄▄██  █
+█ █ █▄█▄▄▀▄ ▀ ▄▄▄█▄▄ ▀▄▄█▄█
+██▀▄  █▄ ▀▄ ██▀  █▄ ▄██▀ ▀█
+█▄▄▄ ▄█▄█▄ ▄▄█▄▄  █▀▄▄▄█▀▄█
+█▄▄▄▄█▄▄█▀▀█▄ █ █ ▄▄▄  ▀█ █
+█ ▄▄▄▄▄ █▀ ▀▀ ▄ █ █▄█ ███ █
+█ █   █ ██▄███ ▄ ▄▄▄   ▀▀▄█
+█ █▄▄▄█ █  ▀▄█▀█  ██ ▄██▄▄█
+█▄▄▄▄▄▄▄█▄██▄▄▄█▄▄█▄▄▄███▄█
+
+› Metro waiting on exp://10.0.11.189:8081
+› Scan the QR code above with Expo Go (Android) or the Camera app (iOS)
+
+› Web is waiting on http://localhost:8081
+
+› Using Expo Go
+› Press s │ switch to development build
+
+› Press a │ open Android
+› Press w │ open web
+
+› Press j │ open debugger
+› Press r │ reload app
+› Press m │ toggle menu
+› shift+m │ more tools
+› Press o │ open project code in your editor
+
+› Press ? │ show all commands
+
+Logs for your project will appear below. Press Ctrl+C to exit.
+
