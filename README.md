@@ -1,5 +1,5 @@
 # MAAI
- The non-profit & exploratory project to evolve AI and teach the AI to RRP Robotics team. It's for helping students, and learners around the world to learn & adopt AI. 
+The non-profit & exploratory project to evolve AI and teach the AI to RRP Robotics team. It's for helping students, and learners around the world to learn & adopt AI. 
 © 2025 MAAI@RRP Robotics Team. All rights reserved.
 This software is licensed under the MIT License.
 For more details, see LICENSE file or visit https://opensource.org/licenses/MIT.
@@ -25,7 +25,8 @@ def generate_response(user_input):
     """Generate AI response using OpenAI's GPT model."""
     try:
         response = openai.ChatCompletion.create(
-            model="gpt-4o",
+#           model="gpt-4o",
+            model="gpt-3.5-turbo",
             messages=[{"role": "user", "content": user_input}]
         )
         return response["choices"][0]["message"]["content"]
@@ -90,4 +91,6 @@ sh
 Copy
 Edit
 python maai.py
-Open http://127.0.0.1:5000/ in your browser and start chatting with Maai! 🚀
+#Open http://127.0.0.1:5000/ in your browser and start chatting with Maai! 🚀
+Open https://maai.io in your browser and start chatting with Maai! 🚀
+
